@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render
+
 from django.http import Http404
 from django.template import RequestContext
 
@@ -8,8 +9,9 @@ from .utils import get_token_for_user
 from .signals import user_unsubscribed
 
 
-def unsubscribe(request, user_id, token, template='unsubscribe/unsubscribe.html',
-                extra_context=None):
+def unsubscribe(
+    request, user_id, token, template="unsubscribe/unsubscribe.html", extra_context=None
+):
     """
     Checks the user token and fires `unsubscribe.signals.user_unsubscribed` and
     returns unsubscribe/unsubscribe.html with extra_context, which could include
@@ -20,7 +22,7 @@ def unsubscribe(request, user_id, token, template='unsubscribe/unsubscribe.html'
     if not token == get_token_for_user(user):
         raise Http404
 
-    context = RequestContext(request)
+    context = {"unsubscribe_user": user}
 
     if extra_context is None:
         extra_context = {}
@@ -29,4 +31,4 @@ def unsubscribe(request, user_id, token, template='unsubscribe/unsubscribe.html'
 
     user_unsubscribed.send(sender=User, user=user)
 
-    return render_to_response(template, {'unsubscribe_user': user}, context_instance=context)
+    return render(request, template, context)

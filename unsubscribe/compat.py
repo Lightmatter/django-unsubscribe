@@ -12,11 +12,12 @@ import django
 try:
     from django.conf.urls import url, include
 except ImportError:
-    from django.conf.urls.defaults import patterns, url, include
+    from django.conf.urls.defaults import url, include
 
 # get_user_model does not exist in 1.4
 try:
     from django.contrib.auth import get_user_model
 except ImportError:
     from django.contrib.auth.models import User
+
     get_user_model = lambda: User
