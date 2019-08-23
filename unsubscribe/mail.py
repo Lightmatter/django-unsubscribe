@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.sites.models import Site
 
 from .utils import get_token_for_user
